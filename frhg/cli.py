@@ -139,6 +139,7 @@ def prepare(args):
             raise ValueError('Production batches cannot cross train/dev/cal/test partitions')
     if set(split) != {'train', 'dev', 'cal', 'test'}:
         raise ValueError('Require train,dev,cal,test batches')
+    Path(args.output).parent.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(args.output, x=((x - mean) / scale).astype(np.float32), y=[int(r['label']) for r in rows],
                         split=split, batch=batch, metadata=metadata, features=np.array(features)[keep])
 
